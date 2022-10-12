@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "linux_parser.h"
 
@@ -10,6 +11,7 @@ using std::stof;
 using std::string;
 using std::to_string;
 using std::vector;
+using std::cout;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -90,7 +92,22 @@ long LinuxParser::IdleJiffies() { return 0; }
 vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
-int LinuxParser::TotalProcesses() { return 0; }
+int LinuxParser::TotalProcesses() { 
+  int totalProcesses;
+  string line;
+  string prefix = "processes ";
+
+  std::ifstream filestream(kProcDirectory + kStatFilename);
+  if (filestream.is_open()) {
+    while (std::getline(filestream, line)) {
+      if (line.rfind(prefix, 0) == 0) {
+        totalProcesses = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
+        // cout << totalProcesses << "\n";
+      }
+    }
+  }
+  return totalProcesses; 
+}
 
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() { return 0; }
