@@ -1,5 +1,6 @@
 #include <dirent.h>
 #include <unistd.h>
+#include <unistd.h>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -237,4 +238,29 @@ string LinuxParser::User(int pid) {
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::UpTime(int pid[[maybe_unused]]) { 
+  string kpid = "/" + std::to_string(pid);
+  string line;
+  int counter = 1;
+  int keynumber = 22;
+  long up_time;
+
+  std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
+  if(filestream.is_open()) {
+    std::getline(filestream, line);
+    // cout << line << "\n";
+    
+    std::stringstream streamLine(line);
+    std::string string_value;
+    
+    while (std::getline(streamLine, string_value, ' ')) {
+      if(keynumber == counter) {
+        // cout << string_value << counter<< "\n";
+        up_time = std::stol(string_value) / sysconf(_SC_CLK_TCK);
+      } 
+      counter++;
+    }
+
+  }
+  return up_time;
+}
