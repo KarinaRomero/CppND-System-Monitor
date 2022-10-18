@@ -117,7 +117,45 @@ long LinuxParser::Jiffies() { return 0; }
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::ActiveJiffies(int pid) { 
+  string kpid = "/" + std::to_string(pid);
+  string line;
+  int counter = 1;
+  int from = 14;
+  int to = 17;
+  long utime, stime, cutime, cstime, starttime, system_uptime;
+
+  std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
+  if(filestream.is_open()) {
+    std::getline(filestream, line);
+    // cout << line << "\n";
+    
+    std::stringstream streamLine(line);
+    std::string string_value;
+    
+    while (std::getline(streamLine, string_value, ' ')) {
+      if(counter >= from && counter <= to) {
+        if(counter == 14)
+          utime = std::stol(string_value);
+        if(counter == 15)
+          stime = std::stol(string_value);
+        if(counter == 16)
+          cutime = std::stol(string_value);
+        if(counter == 17)
+          cstime = std::stol(string_value);
+      } 
+      counter++;
+    }
+
+  }
+  system_uptime = LinuxParser::UpTime();
+  starttime = LinuxParser::UpTime(pid) * sysconf(_SC_CLK_TCK);
+
+  long total_time = utime + stime + cutime + cstime;
+  long seconds = system_uptime - (starttime/sysconf(_SC_CLK_TCK));
+
+  return (total_time / sysconf(_SC_CLK_TCK)) / seconds;
+}
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { return 0; }
@@ -144,8 +182,6 @@ vector<string> LinuxParser::CpuUtilization() {
   }
   return cpu_data; 
 }
-
-
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
@@ -196,7 +232,6 @@ string LinuxParser::Command(int pid) {
 
   return line;
 }
-
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
@@ -269,7 +304,7 @@ string LinuxParser::User(int pid) {
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { 
+long LinuxParser::UpTime(int pid) { 
   string kpid = "/" + std::to_string(pid);
   string line;
   int counter = 1;
