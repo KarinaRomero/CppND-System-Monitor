@@ -19,7 +19,7 @@ int Process::Pid() { return pid_; }
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() { 
     CurrentCpuUsage = LinuxParser::ActiveJiffies(pid_);
-    return ;
+    return CurrentCpuUsage;
 }
 
 // TODO: Return the command that generated this process
