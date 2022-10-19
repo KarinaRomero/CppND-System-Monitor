@@ -17,11 +17,11 @@ float Processor::Utilization() {
     }
 
     float last_idle = CalculateIdle(lastData);
-    float last_no_idle = CalculateIdle(lastData); 
+    float last_no_idle = CalculateNonIdle(lastData); 
     float last_total = last_idle + last_no_idle;
 
     float current_idle = CalculateIdle(currentData);
-    float current_no_idle = CalculateIdle(currentData); 
+    float current_no_idle = CalculateNonIdle(currentData); 
     float current_total = current_idle + current_no_idle;
     
     float total = current_total - last_total;
