@@ -11,7 +11,6 @@ using namespace std::literals::string_literals;
 // REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long int totalSeconds) { 
 
-    totalSeconds = totalSeconds % (24 * 3600);
     int hour = totalSeconds / 3600;
      
     totalSeconds %= 3600;

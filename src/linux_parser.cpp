@@ -105,8 +105,6 @@ long LinuxParser::UpTime() {
     index = line.find(' ');
 
     up_time += std::stol(line.substr(0, index), nullptr);
-    up_time += std::stol(line.substr(index, line.length()), nullptr);
-    
     // cout << line << " | "  << index << " | " << up_time << "\n";
   }
   return up_time; 
@@ -154,6 +152,7 @@ long LinuxParser::ActiveJiffies(int pid) {
   long total_time = utime + stime + cutime + cstime;
   long seconds = system_uptime - (starttime/sysconf(_SC_CLK_TCK));
 
+  return 0;
   return (total_time / sysconf(_SC_CLK_TCK)) / seconds;
 }
 
