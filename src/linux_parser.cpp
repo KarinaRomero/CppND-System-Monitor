@@ -147,7 +147,7 @@ long LinuxParser::ActiveJiffies(int pid) {
 
   }
   system_uptime = LinuxParser::UpTime();
-  starttime = LinuxParser::UpTime(pid) * sysconf(_SC_CLK_TCK);
+  starttime = LinuxParser::UpTime(pid);
 
   long total_time = utime + stime + cutime + cstime;
   long seconds = system_uptime - (starttime/sysconf(_SC_CLK_TCK));
@@ -321,7 +321,7 @@ long LinuxParser::UpTime(int pid) {
     while (std::getline(streamLine, string_value, ' ')) {
       if(keynumber == counter) {
         // cout << string_value << counter<< "\n";
-        up_time = std::stol(string_value) / sysconf(_SC_CLK_TCK);
+        up_time = std::stol(string_value);
       } 
       counter++;
     }
