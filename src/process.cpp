@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cmath>
 #include "linux_parser.h"
 
 #include "process.h"
@@ -32,7 +33,8 @@ string Process::Command() { return LinuxParser::Command(pid_); }
 
 // TODO: Return this process's memory utilization
 string Process::Ram() {
-    return std::to_string(std::stof(LinuxParser::Ram(pid_)) * 0.001); 
+    float used_ram = (std::stof(LinuxParser::Ram(pid_))) / 1024;
+    return std::to_string(used_ram); 
 }
 
 // TODO: Return the user (name) that generated this process
