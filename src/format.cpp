@@ -1,4 +1,5 @@
 #include <string>
+#include <ctime>
 
 #include "format.h"
 
@@ -10,14 +11,18 @@ using namespace std::literals::string_literals;
 // OUTPUT: HH:MM:SS
 // REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long int totalSeconds) { 
+	tm curr_tm;
+	char output_string[15];
+    int hour, minutes, seconds;
 
-    int hour = totalSeconds / 3600;
-     
+    hour = totalSeconds / 3600;
     totalSeconds %= 3600;
-    int minutes = totalSeconds / 60;
-    
+    minutes = totalSeconds / 60;
     totalSeconds %= 60;
-    int seconds = totalSeconds;
+    seconds = totalSeconds;
+
+	curr_tm = {.tm_sec=seconds, .tm_min=minutes, .tm_hour=hour};
+	strftime(output_string, 15, "%T", &curr_tm);
     
-    return std::to_string(hour) + ":" + std::to_string(minutes) + ":" + std::to_string(seconds);
+    return output_string;
 }
