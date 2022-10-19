@@ -22,6 +22,7 @@ class System {
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {};
+  static bool ProcessComparision(Process &a, Process &b);
 };
 
 #endif
