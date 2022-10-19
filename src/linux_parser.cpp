@@ -121,7 +121,7 @@ long LinuxParser::ActiveJiffies(int pid) {
   int counter = 1;
   int from = 14;
   int to = 17;
-  long utime, stime, cutime, cstime, starttime, system_uptime;
+  long utime, stime,  cutime, cstime, seconds;
 
   std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
   if(filestream.is_open()) {
@@ -144,16 +144,9 @@ long LinuxParser::ActiveJiffies(int pid) {
       } 
       counter++;
     }
-
   }
-  system_uptime = LinuxParser::UpTime();
-  starttime = LinuxParser::UpTime(pid);
-
-  long total_time = utime + stime + cutime + cstime;
-  long seconds = system_uptime - (starttime/sysconf(_SC_CLK_TCK));
-
-  return 0;
-  return (total_time / sysconf(_SC_CLK_TCK)) / seconds;
+  seconds = utime + stime + cutime + cstime;
+  return seconds;
 }
 
 // TODO: Read and return the number of active jiffies for the system
