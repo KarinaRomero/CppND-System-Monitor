@@ -111,7 +111,9 @@ long LinuxParser::UpTime() {
 }
 
 // TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
+long LinuxParser::Jiffies() { 
+  return UpTime() * sysconf(_SC_CLK_TCK); 
+}
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
@@ -150,10 +152,21 @@ long LinuxParser::ActiveJiffies(int pid) {
 }
 
 // TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
+long LinuxParser::ActiveJiffies() { 
+  auto data = CpuUtilization();
+  
+  return std::stof(data[LinuxParser::CPUStates::kUser_]) + std::stof(data[LinuxParser::CPUStates::kNice_])
+            + std::stof(data[LinuxParser::CPUStates::kSystem_]) + std::stof(data[LinuxParser::CPUStates::kIRQ_])
+            + std::stof(data[LinuxParser::CPUStates::kSoftIRQ_]) + std::stof(data[LinuxParser::CPUStates::kSteal_]);
+}
 
 // TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::IdleJiffies() { 
+  auto data = CpuUtilization();
+  
+  return std::stof(data[LinuxParser::CPUStates::kIdle_]) + std::stof(data[LinuxParser::CPUStates::kIOwait_]);
+  
+}
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { 

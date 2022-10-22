@@ -10,10 +10,8 @@ class Processor {
 
   // TODO: Declare any necessary private members
  private:
- std::vector<std::string> currentData;
- std::vector<std::string> lastData;
- float CalculateIdle(std::vector<std::string> data);
- float CalculateNonIdle(std::vector<std::string> data);
+ float last_idle;
+ float last_non_idle;
 };
 
 #endif
