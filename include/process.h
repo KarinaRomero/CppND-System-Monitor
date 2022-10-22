@@ -21,6 +21,9 @@ class Process {
   // TODO: Declare any necessary private members
  private:
     int pid_;
+    float last_system_jiffies;
+    float last_process_jiffies;
+    std::string ram_value;
 };
 
 #endif
