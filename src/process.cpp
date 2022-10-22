@@ -12,7 +12,11 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int pid) : pid_(pid) {}
+Process::Process(int pid) : pid_(pid) {
+    last_process_jiffies = 0;
+    last_system_jiffies = 0;
+    ram_value = "";
+}
 
 // TODO: Return this process's ID
 int Process::Pid() { return pid_; }
