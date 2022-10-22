@@ -155,16 +155,16 @@ long LinuxParser::ActiveJiffies(int pid) {
 long LinuxParser::ActiveJiffies() { 
   auto data = CpuUtilization();
   
-  return std::stof(data[LinuxParser::CPUStates::kUser_]) + std::stof(data[LinuxParser::CPUStates::kNice_])
-            + std::stof(data[LinuxParser::CPUStates::kSystem_]) + std::stof(data[LinuxParser::CPUStates::kIRQ_])
-            + std::stof(data[LinuxParser::CPUStates::kSoftIRQ_]) + std::stof(data[LinuxParser::CPUStates::kSteal_]);
+  return std::stol(data[LinuxParser::CPUStates::kUser_]) + std::stol(data[LinuxParser::CPUStates::kNice_])
+            + std::stol(data[LinuxParser::CPUStates::kSystem_]) + std::stol(data[LinuxParser::CPUStates::kIRQ_])
+            + std::stol(data[LinuxParser::CPUStates::kSoftIRQ_]) + std::stol(data[LinuxParser::CPUStates::kSteal_]);
 }
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
   auto data = CpuUtilization();
   
-  return std::stof(data[LinuxParser::CPUStates::kIdle_]) + std::stof(data[LinuxParser::CPUStates::kIOwait_]);
+  return std::stol(data[LinuxParser::CPUStates::kIdle_]) + std::stol(data[LinuxParser::CPUStates::kIOwait_]);
   
 }
 
@@ -253,7 +253,6 @@ string LinuxParser::Ram(int pid) {
 
         size = line.substr(prefix.length(), line.length());
         size.erase(remove(size.begin(), size.end(), '\t'));
-        
         //cout << size << "\n";
         break;
       }

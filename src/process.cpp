@@ -19,12 +19,16 @@ int Process::Pid() { return pid_; }
 
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() { 
-    float hertz = (float)sysconf(_SC_CLK_TCK);
-    float system_uptime = LinuxParser::UpTime() / hertz;
-    float active_jiffies = LinuxParser::ActiveJiffies(pid_) / hertz;
-    float process_uptime = LinuxParser::UpTime(pid_) / hertz;
+    long current_system_jiffies = LinuxParser::Jiffies();
+    float current_process_jiffies = LinuxParser::ActiveJiffies(pid_);
     
-    CurrentCpuUsage = active_jiffies / (system_uptime - process_uptime);
+    if(last_system_jiffies == 0 && last_process_jiffies == 0) {
+        last_process_jiffies = current_process_jiffies;
+        last_system_jiffies = current_system_jiffies;
+        return 0.0;
+    }
+    
+    CurrentCpuUsage = (current_process_jiffies - last_process_jiffies) / (current_system_jiffies - last_system_jiffies);
     return CurrentCpuUsage;
 }
 
@@ -33,8 +37,14 @@ string Process::Command() { return LinuxParser::Command(pid_); }
 
 // TODO: Return this process's memory utilization
 string Process::Ram() {
-    float used_ram = (std::stof(LinuxParser::Ram(pid_))) / 1024;
-    return std::to_string(used_ram); 
+    string ram = LinuxParser::Ram(pid_);
+
+    if(ram == "" || ram == " ")
+     return ram_value;
+
+    ram_value = std::to_string((std::stof(ram)) / 1024);
+    
+    return ram_value; 
 }
 
 // TODO: Return the user (name) that generated this process
