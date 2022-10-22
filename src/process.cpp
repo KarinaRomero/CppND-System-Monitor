@@ -60,3 +60,5 @@ long int Process::UpTime() { return LinuxParser::UpTime(pid_) / sysconf(_SC_CLK_
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { return a.CurrentCpuUsage < CurrentCpuUsage; }
+
+bool Process::operator==(Process const& a) { return pid_ == a.pid_; }

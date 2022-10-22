@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <bits/stdc++.h>
 
 #include "process.h"
 #include "processor.h"
@@ -26,7 +27,17 @@ vector<Process>& System::Processes() {
 
     for (auto pid: pids)
     {
-        processes_.push_back(Process{pid});
+        Process incoming_process = Process{pid};
+        auto result = std::find(processes_.begin(), processes_.end(), incoming_process);
+  
+        if (result == processes_.end()) 
+        {
+           processes_.push_back(incoming_process);
+        }
+        else
+        { 
+            //std::remove(processes_.begin(), processes_.end(), result - processes_.begin());
+        }
     }
     std::sort(processes_.begin(), processes_.end(), ProcessComparision);
     return processes_; 
@@ -35,7 +46,6 @@ vector<Process>& System::Processes() {
 bool System::ProcessComparision(Process &a, Process &b){
     return a<b;
 }
-
 
 // TODO: Return the system's kernel identifier (string)
 std::string System::Kernel() { return LinuxParser::Kernel(); }
