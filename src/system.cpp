@@ -34,9 +34,9 @@ vector<Process>& System::Processes() {
         {
            processes_.push_back(incoming_process);
         }
-        else
+        else if(!LinuxParser::ProcessFileExist(pid))
         { 
-            //std::remove(processes_.begin(), processes_.end(), result - processes_.begin());
+            std::remove(processes_.begin(), processes_.end(), result - processes_.begin());
         }
     }
     std::sort(processes_.begin(), processes_.end(), ProcessComparision);

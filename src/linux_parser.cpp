@@ -334,3 +334,12 @@ long LinuxParser::UpTime(int pid) {
   }
   return up_time;
 }
+
+bool LinuxParser::ProcessFileExist(int pid) {
+  string kpid = "/" + std::to_string(pid);
+  std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
+  if(filestream.is_open()) {
+    return true;
+  }
+  return false;
+}
