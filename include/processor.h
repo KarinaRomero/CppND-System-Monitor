@@ -10,8 +10,8 @@ class Processor {
 
   // TODO: Declare any necessary private members
  private:
- float last_idle;
- float last_non_idle;
+ float last_idle {0};
+ float last_non_idle{0};
 };
 
 #endif
