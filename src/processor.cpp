@@ -12,14 +12,7 @@ float Processor::Utilization() {
     long current_idle = LinuxParser::IdleJiffies();
     long current_non_idle = LinuxParser::ActiveJiffies();
 
-    if(last_idle == 0.0 && last_non_idle == 0.0) {
-        last_idle = current_idle;
-        last_non_idle = current_non_idle;
-        return 0.0;
-    }
-
     float last_total = last_idle + last_non_idle;
-
     float current_total = current_idle + current_non_idle;
     
     float total = current_total - last_total;
