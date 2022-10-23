@@ -312,8 +312,7 @@ long LinuxParser::UpTime(int pid) {
   string kpid = "/" + std::to_string(pid);
   string line;
   int counter = 1;
-  int keynumber = 22;
-  long up_time;
+  long up_time = 0;
 
   std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
   if(filestream.is_open()) {
@@ -324,9 +323,9 @@ long LinuxParser::UpTime(int pid) {
     std::string string_value;
     
     while (std::getline(streamLine, string_value, ' ')) {
-      if(keynumber == counter) {
+      if(14 == counter || 15 == counter) {
         // cout << string_value << counter<< "\n";
-        up_time = std::stol(string_value);
+        up_time += std::stol(string_value);
       } 
       counter++;
     }
