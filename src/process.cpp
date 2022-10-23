@@ -18,10 +18,10 @@ Process::Process(int pid) : pid_(pid) {
     ram_value = "";
 }
 
-// TODO: Return this process's ID
+// DONE: Return this process's ID
 int Process::Pid() { return pid_; }
 
-// TODO: Return this process's CPU utilization
+// DONE: Return this process's CPU utilization
 float Process::CpuUtilization() { 
     long current_system_jiffies = LinuxParser::Jiffies();
     float current_process_jiffies = LinuxParser::ActiveJiffies(pid_);
@@ -36,10 +36,10 @@ float Process::CpuUtilization() {
     return CurrentCpuUsage;
 }
 
-// TODO: Return the command that generated this process
+// DONE: Return the command that generated this process
 string Process::Command() { return LinuxParser::Command(pid_); }
 
-// TODO: Return this process's memory utilization
+// DONE: Return this process's memory utilization
 string Process::Ram() {
     string ram = LinuxParser::Ram(pid_);
 
@@ -51,13 +51,13 @@ string Process::Ram() {
     return ram_value; 
 }
 
-// TODO: Return the user (name) that generated this process
+// DONE: Return the user (name) that generated this process
 string Process::User() { return LinuxParser::User(pid_);}
 
-// TODO: Return the age of this process (in seconds)
+// DONE: Return the age of this process (in seconds)
 long int Process::UpTime() { return LinuxParser::UpTime(pid_) / sysconf(_SC_CLK_TCK); }
 
-// TODO: Overload the "less than" comparison operator for Process objects
+// DONE: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { return a.CurrentCpuUsage < CurrentCpuUsage; }
 
