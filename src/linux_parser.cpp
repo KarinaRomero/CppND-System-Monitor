@@ -105,7 +105,6 @@ long LinuxParser::UpTime() {
     index = line.find(' ');
 
     up_time += std::stol(line.substr(0, index), nullptr);
-    // cout << line << " | "  << index << " | " << up_time << "\n";
   }
   return up_time; 
 }
@@ -128,7 +127,6 @@ long LinuxParser::ActiveJiffies(int pid) {
   std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
   if(filestream.is_open()) {
     std::getline(filestream, line);
-    // cout << line << "\n";
     
     std::stringstream streamLine(line);
     std::string string_value;
@@ -199,7 +197,6 @@ int LinuxParser::TotalProcesses() {
     while (std::getline(filestream, line)) {
       if (line.rfind(prefix, 0) == 0) {
         total_processes = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
-        // cout << totalProcesses << "\n";
       }
     }
   }
@@ -217,7 +214,6 @@ int LinuxParser::RunningProcesses() {
     while (std::getline(filestream, line)) {
       if (line.rfind(prefix, 0) == 0) {
         total_processes_running = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
-        // cout << totalProcesses << "\n";
       }
     }
   }
@@ -253,7 +249,6 @@ string LinuxParser::Ram(int pid) {
 
         size = line.substr(prefix.length(), line.length());
         size.erase(remove(size.begin(), size.end(), '\t'));
-        //cout << size << "\n";
         break;
       }
     }
@@ -276,7 +271,6 @@ string LinuxParser::Uid(int pid) {
 
         int index = (line.substr(prefix.length(), line.length())).find('\t');
         uid = line.substr((prefix.length()), index);
-        //cout << uid << "\n";
         break;
       }
     }
@@ -297,7 +291,6 @@ string LinuxParser::User(int pid) {
       if (line.find(":"+uid+":") != string::npos) {
         int index = (line.substr(0, line.length())).find(':');
         user = line.substr(0, index);
-        // cout << user << "\n";
         break;
       }
     }
@@ -317,14 +310,12 @@ long LinuxParser::UpTime(int pid) {
   std::ifstream filestream(kProcDirectory + kpid + kStatFilename);
   if(filestream.is_open()) {
     std::getline(filestream, line);
-    // cout << line << "\n";
     
     std::stringstream streamLine(line);
     std::string string_value;
     
     while (std::getline(streamLine, string_value, ' ')) {
       if(14 == counter || 15 == counter) {
-        // cout << string_value << counter<< "\n";
         up_time += std::stol(string_value);
       } 
       counter++;
