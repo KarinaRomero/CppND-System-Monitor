@@ -75,18 +75,18 @@ float LinuxParser::MemoryUtilization() {
   float memory_total = 0;
   float memory_free = 0;
   string line;
-  string prefixMemTotal = "MemTotal:";
-  string prefixMemFree = "MemFree:";
+  string prefix_mem_total = "MemTotal:";
+  string prefix_mem_free = "MemFree:";
 
   std::ifstream filestream(kProcDirectory + kMeminfoFilename);
 
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
-      if (line.rfind(prefixMemTotal, 0) == 0) {
-        memory_total = std::stoi(line.substr((prefixMemTotal.length()), line.length()-2), nullptr);
+      if (line.rfind(prefix_mem_total, 0) == 0) {
+        memory_total = std::stoi(line.substr((prefix_mem_total.length()), line.length()-2), nullptr);
       }
-      else if (line.rfind(prefixMemFree, 0) == 0) {
-        memory_free = std::stoi(line.substr((prefixMemTotal.length()), line.length()-2), nullptr);
+      else if (line.rfind(prefix_mem_free, 0) == 0) {
+        memory_free = std::stoi(line.substr((prefix_mem_free.length()), line.length()-2), nullptr);
       }
     }
   }
@@ -190,7 +190,7 @@ vector<string> LinuxParser::CpuUtilization() {
 
 // DONE: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  int totalProcesses;
+  int total_processes;
   string line;
   string prefix = "processes ";
 
@@ -198,17 +198,17 @@ int LinuxParser::TotalProcesses() {
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       if (line.rfind(prefix, 0) == 0) {
-        totalProcesses = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
+        total_processes = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
         // cout << totalProcesses << "\n";
       }
     }
   }
-  return totalProcesses; 
+  return total_processes; 
 }
 
 // DONE: Read and return the number of running processes
 int LinuxParser::RunningProcesses() { 
-  int totalProcessesRunning;
+  int total_processes_running;
   string line;
   string prefix = "procs_running ";
 
@@ -216,12 +216,12 @@ int LinuxParser::RunningProcesses() {
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       if (line.rfind(prefix, 0) == 0) {
-        totalProcessesRunning = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
+        total_processes_running = std::stoi(line.substr((prefix.length()), line.length()), nullptr);
         // cout << totalProcesses << "\n";
       }
     }
   }
-  return totalProcessesRunning;
+  return total_processes_running;
 }
 
 // DONE: Read and return the command associated with a process
